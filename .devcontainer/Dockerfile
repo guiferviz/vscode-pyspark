@@ -44,4 +44,29 @@ RUN if [ -z "${scala_version}" ]; then \
     ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}-scala${scala_version}" "${SPARK_HOME}"; \
   fi
 
-RUN apt update && apt install -y python3-pip python-is-python3
+# Install NodeJS.
+ENV NODE_MAJOR=20
+RUN apt-get update && \
+  apt-get install -y ca-certificates curl gnupg && \
+  mkdir -p /etc/apt/keyrings && \
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list && \
+  apt-get update && \
+  apt-get install nodejs -y
+
+# Install Python.
+RUN apt update && \
+  apt install -y python3-pip python-is-python3
+
+# Install NeoVim.
+RUN apt update && \
+  apt install -y neovim
+
+# Install zsh plugin manager.
+#curl -L git.io/antigen > $HOME/antigen.zsh
+# Install neovim plugin manager.
+#sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' && \
+# Install all neovim plugins.
+#nvim +PlugInstall +qall
+# Default git editor.
+#git config --global core.editor nvim

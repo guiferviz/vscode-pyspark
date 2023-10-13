@@ -1,4 +1,5 @@
 from typing import Optional
+from pathlib import Path
 
 import delta
 from pyspark.sql import SparkSession
@@ -25,9 +26,10 @@ def get_local_spark_session(
 ) -> SparkSession:
     builder = (
         SparkSession.builder.master("local[1]")
-        .appName("customer_team_project")
+        .appName("my_spark_project")
         .config("spark.sql.shuffle.partitions", "1")
         .config("spark.default.parallelism", "1")
+        .config("spark.databricks.delta.snapshotPartitions", "1")
         .config(
             "spark.sql.adaptive.coalescePartitions.initialPartitionNum",
             "1",
@@ -45,4 +47,6 @@ def get_local_spark_session(
 
 
 spark = get_local_spark_session()
-breakpoint()
+df = spark.range(10)
+df.show()
+df.write.format("delta").mode("overwrite").save("/tmp/range")

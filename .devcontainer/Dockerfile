@@ -4,8 +4,8 @@ USER root
 
 ARG spark_version="3.5.0"
 ARG hadoop_version="3"
-ARG scala_version="2.13"
-ARG spark_checksum="b8ed2e5d2994493bd06aea4414057d6c92d8d01d2763626bb2a618d8c026990f155d6414ba0215cc593d991f762d30f55e0eaa1269c123d90f3a8f2cbd3f683c"
+ARG scala_version
+ARG spark_checksum="8883c67e0a138069e597f3e7d4edbbd5c3a565d50b28644aad02856a1ec1da7cb92b8f80454ca427118f69459ea326eaa073cf7b1a860c3b796f4b07c2101319"
 ARG openjdk_version="17"
 
 ENV APACHE_SPARK_VERSION="${spark_version}" \
@@ -70,3 +70,4 @@ RUN apt update && \
 #nvim +PlugInstall +qall
 # Default git editor.
 #git config --global core.editor nvim
+# Install your own set of dotfiles, mines are in: https://github.com/guiferviz/dotfiles/tree/main

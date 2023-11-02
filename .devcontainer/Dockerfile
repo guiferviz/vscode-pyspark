@@ -74,18 +74,22 @@ RUN apt-get update && \
 # Instalar Azure CLI.
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-# Install Poetry.
-RUN curl -sSL https://install.python-poetry.org | python3 - --version 1.4.1
-
 # Install Direnv.
 RUN curl -sfL https://direnv.net/install.sh | bash
 
+USER vscode
+
+# Install Poetry.
+RUN curl -sSL https://install.python-poetry.org | python3 - --version 1.4.1
+ENV PATH "/home/vscode/.poetry/bin:$PATH"
+
 # Install zsh plugin manager.
-#curl -L git.io/antigen > $HOME/antigen.zsh
 # Install neovim plugin manager.
-#sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' && \
-# Install all neovim plugins.
-#nvim +PlugInstall +qall
-# Default git editor.
-#git config --global core.editor nvim
+# Set neovim as default git editor.
 # Install your own set of dotfiles, mines are in: https://github.com/guiferviz/dotfiles/tree/main
+# Install all neovim plugins.
+RUN curl -L git.io/antigen > $HOME/antigen.zsh && \
+  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' && \
+  git config --global core.editor nvim && \
+  git clone --bare https://github.com/guiferviz/dotfiles.git $HOME/.dotfiles && alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME' && rm $HOME/.zshrc && /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout && \
+  nvim +PlugInstall +qall

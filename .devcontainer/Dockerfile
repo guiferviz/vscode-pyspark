@@ -2,10 +2,10 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 USER root
 
-ARG spark_version="3.4.1"
+ARG spark_version="3.4.2"
 ARG hadoop_version="3"
 ARG scala_version
-ARG spark_checksum="5a21295b4c3d1d3f8fc85375c711c7c23e3eeb3ec9ea91778f149d8d321e3905e2f44cf19c69a28df693cffd536f7316706c78932e7e148d224424150f18b2c5"
+ARG spark_checksum="c9470a557c96fe899dd1c9ea8d0dda3310eaf0155b2bb972f70a6d97fee8cdaf838b425c30df3d5856b2c31fc2be933537c111db72d0427eabb76c6abd92c1f1"
 ARG openjdk_version="17"
 
 ENV APACHE_SPARK_VERSION="${spark_version}" \
